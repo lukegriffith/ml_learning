@@ -8,9 +8,21 @@ class NeuralNetwork:
         self.weights = [np.random.standard_normal(s) for s in weight_shapes]
         self.biases = [np.zeros((s,1)) for s in layer_sizes[1:]]
 
+        self.constant = False
+        self.constant_value = 42
+
     def predict(self, a):
         for w,b in zip(self.weights,self.biases):
+           
+            # Multiplying by constant.
+            if self.constant:
+                cv = self.constant_value
+                w = w * cv
+                b = b * cv
+                a = a * cv
+            
             a = self.activation(np.matmul(w,a) + b)
+
         return a
 
 
@@ -20,9 +32,13 @@ class NeuralNetwork:
         print('{0}/{1} accuracy: {2}%'.format(num_correct,len(images), (num_correct/len(images)*100)))
 
 
+    def enable_constant(self):
+        self.constant = True
 
     @staticmethod
-    def activation(x):
+    def activation(self,x):
         # sigmoid function activation
-        return 1/(1+np.exp(-x))
+        #return 1/(1+np.exp(-x))
+        # step function
+        return np.heaviside(x, 0.5)
 
