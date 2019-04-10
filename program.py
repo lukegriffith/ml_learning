@@ -17,12 +17,12 @@ with np.load('mnist.npz') as data:
 
 
 
-layer_sizes = (784,5,10) 
+layer_sizes = (784,15,10) 
 x = np.ones((layer_sizes[0],1))
-
-import pdb
 
 
 net = nn.NeuralNetwork(layer_sizes)
 net.print_accuracy(training_images,training_labels)
 
+
+print( int(net.cost_function(training_images, training_labels)) ) 
